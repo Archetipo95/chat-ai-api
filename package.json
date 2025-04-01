@@ -1,0 +1,31 @@
+{
+  "name": "chat-ai-api",
+  "version": "1.0.0",
+  "description": "Backend for an ai chat application",
+  "license": "MIT",
+  "author": "Martin Masevski",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "tsc --noEmit && tsx --watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.41.0",
+    "express": "^4.21.2",
+    "openai": "^4.89.0",
+    "stream-chat": "^8.57.6"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.13.13",
+    "drizzle-kit": "^0.30.5",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}
