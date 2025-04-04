@@ -55,3 +55,13 @@ export const sendMessageToChat = async (message: string, userId: string) => {
 
   return { replay: aiMessage };
 };
+
+export const getMessages = async (userId: string) => {
+  if (!userId) {
+    throw new Error('User ID is required');
+  }
+
+  const chatHistory = await db.select().from(chats).where(eq(chats.userId, userId));
+
+  return { messages: chatHistory };
+};

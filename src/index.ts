@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenvConfig from './config/dotenv.js';
 import chatRouter from './controllers/chatController.js';
 import userRouter from './controllers/registerUserController.js';
+import getMessagesRouter from './controllers/getMessagesController.js';
 
 dotenvConfig();
 
@@ -14,6 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/register-user', userRouter);
 app.use('/chat', chatRouter);
+app.use('/get-messages', getMessagesRouter)
 
 const PORT = process.env.PORT || 5000;
 
