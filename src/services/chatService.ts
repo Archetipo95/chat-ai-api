@@ -2,6 +2,7 @@ import { db } from '../config/database.js';
 import { chats, users } from '../db/schema.js';
 import { initChatClient } from '../utils/initClients.js';
 import { eq } from 'drizzle-orm';
+import { ChatCompletionMessageParam } from 'openai/resources';
 
 const LLM_BASE_URL = 'http://localhost:1234';
 const LLM_MODEL = 'deepseek-r1-distill-qwen-7b';
@@ -24,12 +25,25 @@ export const sendMessageToChat = async (message: string, userId: string) => {
     throw new Error('User not found in the database, please register first');
   }
 
+  // Fetch user past messages
+  const chatHistory = await db.select().from(chats).where(eq(chats.userId, userId)).orderBy(chats.createdAt).limit(10);
+
+  // Format the chat history for the LLM
+  const conversation: ChatCompletionMessageParam[] = chatHistory
+    .flatMap((chat) => [
+      { role: 'user', content: chat.message },
+      { role: 'assistant', content: chat.reply },
+    ])
+
+  // Add latest user messages
+  conversation.push({ role: 'user', content: message });
+
   const response = await fetch(`${LLM_BASE_URL}/v1/chat/completions`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       model: LLM_MODEL,
-      messages: [{ role: 'user', content: message }],
+      messages: conversation as ChatCompletionMessageParam[],
       temperature: 0.7,
       max_tokens: -1,
       stream: false,
@@ -53,7 +67,7 @@ export const sendMessageToChat = async (message: string, userId: string) => {
   await channel.create();
   await channel.sendMessage({ text: aiMessage, user_id: 'ai_bot' });
 
-  return { replay: aiMessage };
+  return { reply: aiMessage };
 };
 
 export const getMessages = async (userId: string) => {
