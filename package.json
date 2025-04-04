@@ -18,6 +18,7 @@
     "drizzle-orm": "^0.41.0",
     "express": "^4.21.2",
     "openai": "^4.89.0",
+    "postgres": "^3.4.5",
     "stream-chat": "^8.57.6"
   },
   "devDependencies": {
