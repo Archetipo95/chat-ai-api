@@ -5,11 +5,11 @@
   "license": "MIT",
   "author": "Martin Masevski",
   "type": "module",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "dev": "tsc --noEmit && tsx --watch src/server.ts",
+    "dev": "tsc --noEmit && tsx --watch src/index.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/index.js"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.0",
